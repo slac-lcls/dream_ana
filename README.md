@@ -1,4 +1,4 @@
-# dream
+# dream_ana
 Online and offline analysis software for the DREAM instrument at the LCLS.
 
 ## Main features 
