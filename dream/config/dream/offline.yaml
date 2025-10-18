@@ -1,5 +1,5 @@
 live: False
-max_events: 100000
+max_events: 
 batch_size: 1000
 h5:
   path1: /sdf/data/lcls/ds/tmo/
@@ -12,15 +12,6 @@ log:
 
  
 data:
-  ## uniform:
-  #   tpks_l:
-  #     len: 10
-  #     var: [mcp, u1]
-  #   hit_l:
-  #     len: 10
-  #     fvar: [n]
-  #     var: [x, y, t, m]
-
   ragged_split:
     tpks_l:
           #var: [mcp,u1,u2,v1,v2,w1,w2]  
