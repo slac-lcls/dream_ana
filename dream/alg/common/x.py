@@ -229,10 +229,11 @@ class atm:
         edge,_,_ = self.edge_finder(yy)   
         return edge+offset                    
 
-    def edge_finder(self, prj, hl_kernel = 150, w_kernel = 30):
+    def edge_finder(self, prj, hl_kernel = 200, w_kernel = 20):
         x = np.arange(-hl_kernel,hl_kernel+1)
-        kernel = np.exp(-0.5*((x/w_kernel)**2))
-        kernel = kernel[1:] - kernel[:-1]
+        # kernel = np.exp(-0.5*((x/w_kernel)**2))
+        # kernel = kernel[1:] - kernel[:-1]
+        kernel = -1*(x/w_kernel)*np.exp(-0.5*((x/w_kernel)**2)) #from Mat
         prj = np.concatenate([prj[hl_kernel:0:-1], prj, prj[-1:-hl_kernel:-1]])   
         conv = np.convolve(prj,kernel,'valid')
         pks, props = find_peaks(conv, prominence=(conv.max()-conv.mean())/2)

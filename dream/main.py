@@ -18,8 +18,8 @@ if rank==0: print('running '+mode+'...')
 if mode == 'online':
     os.environ['PS_SRV_NODES']='1' 
 elif numworkers>20 and mode == 'offline':
-    SRV_NODES = int(2.5*numworkers/100)
-    EB_NODES = int(24*numworkers/100)
+    SRV_NODES = int(2*numworkers/100)
+    EB_NODES = int(6*numworkers/100)
     os.environ['PS_SRV_NODES']=str(SRV_NODES)
     os.environ['PS_EB_NODES']=str(EB_NODES)
 
@@ -89,7 +89,7 @@ while 1:
         for step_i, step in enumerate(run.steps()):
             for nevt,evt in enumerate(step.events()):
                 
-                if True: #try:
+                try:
                     evt_dict = {}     
                     deep_merge(evt_dict, {'x':{'time_stamp': evt.timestamp}})
                     for det in detectors:
@@ -98,8 +98,8 @@ while 1:
                     comm.send(rank, smd, n_evt, evt, evt_dict)
                     n_evt += 1
                 
-                # except Exception as err:
-                #    print(err)
+                except Exception as err:
+                   print(err)
             
         if mode == 'online': 
             #pass
