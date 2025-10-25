@@ -204,6 +204,7 @@ class atm:
 
         if 'edge' in self.requested_vars[self.det_id]:
             edge = np.nan
+            prom = np.nan
             self.data_dict['x'] = {}
             if x['timing:281'] == 1:
                 if self.bkg is None:
@@ -214,10 +215,11 @@ class atm:
             if x['timing:280'] == 1:
                 if self.bkg is None: 
                     edge = np.nan
+                    prom = np.nan
                 else:
-                    edge = self.find_edges(line, self.bkg)
+                    edge, prom = self.find_edges(line, self.bkg)
             self.data_dict['x'][self.det_id+':'+'edge'] = edge
-          
+            if 'prom' in self.requested_vars[self.det_id]: self.data_dict['x'][self.det_id+':'+'prom'] = prom
         
 
     def find_edges(self, atm, bkg, hw=300):
@@ -226,8 +228,8 @@ class atm:
         inds = (self.x_atm>x_avg-hw)&(self.x_atm<x_avg+hw)
         xx, yy = self.x_atm[inds],sig[inds]
         offset = xx[0]
-        edge,_,_ = self.edge_finder(yy)   
-        return edge+offset                    
+        edge,prom = self.edge_finder(yy)   
+        return edge+offset, prom                    
 
     def edge_finder(self, prj, hl_kernel = 200, w_kernel = 20):
         x = np.arange(-hl_kernel,hl_kernel+1)
@@ -237,8 +239,9 @@ class atm:
         prj = np.concatenate([prj[hl_kernel:0:-1], prj, prj[-1:-hl_kernel:-1]])   
         conv = np.convolve(prj,kernel,'valid')
         pks, props = find_peaks(conv, prominence=(conv.max()-conv.mean())/2)
-        pk = np.nan if len(pks)==0 else pks[np.argmax(props['prominences'])]
-        return pk, conv, kernel
+        argmax = np.argmax(props['prominences'])
+        pk = np.nan if len(pks)==0 else pks[argmax]
+        return pk, props['prominences'][argmax] #conv, kernel
             
 
        

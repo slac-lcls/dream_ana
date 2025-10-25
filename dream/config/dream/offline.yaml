@@ -31,6 +31,6 @@ data:
     scan: [var1, var2]
     bld: [gmd, xgmd]
     timing: ['280','281','282','dest']
-    atm: [edge] 
+    atm: [edge, prom] 
     epics: [las_ip2_atm_dly]
 
