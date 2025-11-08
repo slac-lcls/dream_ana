@@ -62,7 +62,7 @@ class dld_reconstructor:
         self.k0 = 'hit_'+self.det_id
         self.k_diag = 'diag_'+self.det_id
         self.avail_vars_k0 = ['n', 'z', 'y', 't', 'm']
-        self.avail_vars_k_diag = ['pos_u', 'tsum_u', 'pos_v', 'tsum_v', 'pos_w', 'tsum_w']
+        self.avail_vars_k_diag = ['diff_u', 'tsum_u', 'diff_v', 'tsum_v', 'diff_w', 'tsum_w']
 
         self.reconstruction_k0 = False
         if self.k0 in requested_vars.keys():
@@ -82,7 +82,7 @@ class dld_reconstructor:
         if self.k_diag in requested_vars.keys():
             if len(lists_intersection(self.avail_vars_k_diag, requested_vars[self.k_diag])) > 0:
                 self.reconstruction_k_diag = True       
-                self.pos_sum_index = {'pos_u': 0, 'tsum_u': 1, 'pos_v': 2, 'tsum_v': 3, 'pos_w': 4, 'tsum_w': 5}
+                self.diff_sum_index = {'diff_u': 0, 'tsum_u': 1, 'diff_v': 2, 'tsum_v': 3, 'diff_w': 4, 'tsum_w': 5}
 
         self.reconstruction = (self.reconstruction_k0 or self.reconstruction_k_diag)
         # if self.reconstruction_k_diag:
@@ -114,6 +114,7 @@ class dld_reconstructor:
             self.reconstruction = True
         
         self.data_dict = {}
+       
 
     def __call__(self, *args, **kwargs):
         self.data_dict = {}
@@ -161,39 +162,35 @@ class dld_reconstructor:
 
                     if self.reconstruction_k_diag:
                         self.data_dict[self.k_diag] = {}
-                        for k_pos_sum in self.pos_sum_index.keys():
-                            self.data_dict[self.k_diag][k_pos_sum] = np.array([np.nan])                    
+                        for k_diff_sum in self.diff_sum_index.keys():
+                            self.data_dict[self.k_diag][k_diff_sum] = np.array([np.nan])                    
                             
                     return
 
-                #print('marker 1')
+           
                     
                 self.RHF.pre_sort()  
 
                 if self.reconstruction_k_diag:
                     self.data_dict[self.k_diag] = {}
                     pt_ready = self.RHF.pos_tsum_ready()
-                    #print('marker 2')
+                 
                     if pt_ready:
-                        pos_tsum = self.RHF.get_pos_tsum()
-                        #print('marker 3')
-                        for k_pos_sum in self.pos_sum_index.keys():
-                            self.data_dict[self.k_diag][k_pos_sum] = np.array([pos_tsum[self.pos_sum_index[k_pos_sum]]])
+                        diff_tsum = self.RHF.get_pos_tsum()
+                
+                        for k_diff_sum in self.diff_sum_index.keys():
+                            self.data_dict[self.k_diag][k_diff_sum] = np.array([diff_tsum[self.diff_sum_index[k_diff_sum]]])
                     else:
-                        for k_pos_sum in self.pos_sum_index.keys():
-                            self.data_dict[self.k_diag][k_pos_sum] = np.array([np.nan])                     
+                        for k_diff_sum in self.diff_sum_index.keys():
+                            self.data_dict[self.k_diag][k_diff_sum] = np.array([np.nan])                     
                         
 
                 if self.reconstruction_k0:
                     self.data_dict[self.k0] = {}
-                    self.RHF.sort()
-                    #print('marker 4')
-    
-                    self.RHF.fill_hits()
-                    #print('marker 5')
-                    
+                    self.RHF.sort()     
+                    self.RHF.fill_hits()                                  
                     hits_n = self.RHF.get_hits_n()
-                    #print('marker 6')
+     
                     if self.requested['n']: self.data_dict[self.k0]['n'] = np.array([hits_n])
                     if self.requested['z']: self.data_dict[self.k0]['z'] = self.sign_z*self.RHF.get_hits_y()
                     if self.requested['y']: self.data_dict[self.k0]['y'] = self.RHF.get_hits_x()
@@ -255,8 +252,8 @@ class dld_reconstructor:
 
                 if self.reconstruction_k_diag:
                     self.data_dict[self.k_diag] = {}
-                    for k_pos_sum in self.pos_sum_index.keys():
-                        self.data_dict[self.k_diag][k_pos_sum] = np.array([np.nan])
+                    for k_diff_sum in self.diff_sum_index.keys():
+                        self.data_dict[self.k_diag][k_diff_sum] = np.array([np.nan])
      
 
                     

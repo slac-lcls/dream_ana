@@ -1,21 +1,21 @@
 live: False
-max_events: 
+max_events: 100000
 batch_size: 1000
 h5:
   path1: /sdf/data/lcls/ds/tmo/
-  path2: /scratch/<arp folder>/h5/
+  path2: /scratch/xiangli/h5/
   name1: run
-  name2: .h5
+  name2: _test_corr.h5
 log:
   path1: /sdf/data/lcls/ds/tmo/
-  path2: /scratch/<arp folder>/log/
+  path2: /scratch/xiangli/log/
 
  
 data:
   ragged_split:
     tpks_l:
           #var: [mcp,u1,u2,v1,v2,w1,w2]  
-      var: [mcp]
+      var: [mcp,u1,u2,v1,v2,w1,w2]
         #tpks_s:
         #var: [mcp,u1,u2,v1,v2,w1,w2]
 
@@ -25,6 +25,8 @@ data:
     #   var: [z, y, t, m]
     hit_l:
       var: [z, y, t, m] 
+    diag_l:
+      var: [diff_u, tsum_u, diff_v, tsum_v, diff_w, tsum_w]
 
 
   x:
