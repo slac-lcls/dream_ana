@@ -5,7 +5,7 @@ h5:
   path1: /sdf/data/lcls/ds/tmo/
   path2: /scratch/xiangli/h5/
   name1: run
-  name2: _test_corr.h5
+  name2: _test_hpks0.h5
 log:
   path1: /sdf/data/lcls/ds/tmo/
   path2: /scratch/xiangli/log/
@@ -14,8 +14,9 @@ log:
 data:
   ragged_split:
     tpks_l:
-          #var: [mcp,u1,u2,v1,v2,w1,w2]  
       var: [mcp,u1,u2,v1,v2,w1,w2]
+    hpks_l:
+      var: [mcp,u1,u2,v1,v2,w1,w2]      
         #tpks_s:
         #var: [mcp,u1,u2,v1,v2,w1,w2]
 
@@ -29,10 +30,10 @@ data:
       var: [diff_u, tsum_u, diff_v, tsum_v, diff_w, tsum_w]
 
 
-  x:
-    scan: [var1, var2]
-    bld: [gmd, xgmd]
-    timing: ['280','281','282','dest']
-    atm: [edge, prom] 
-    epics: [las_ip2_atm_dly]
+  # x:
+  #   scan: [var1, var2]
+  #   bld: [gmd, xgmd]
+  #   timing: ['280','281','282','dest']
+  #   atm: [edge, prom] 
+  #   epics: [las_ip2_atm_dly]
 

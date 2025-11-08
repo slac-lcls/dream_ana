@@ -5,6 +5,7 @@ dream_long_detector:
   return: {wf_l:[mcp, u1, u2, v1, v2, w1, w2], 
            pdd_l:[mcp, u1, u2, v1, v2, w1, w2],
            tpks_l:[mcp, u1, u2, v1, v2, w1, w2], 
+           hpks_l:[mcp, u1, u2, v1, v2, w1, w2], 
            len_tpks_l:[mcp, u1, u2, v1, v2, w1, w2],
            hit_l:[n, z, y, t, m],
            diag_l:[diff_u, tsum_u, diff_v, tsum_v, diff_w, tsum_w]}
@@ -18,6 +19,7 @@ dream_short_detector:
   return: {wf_s:[mcp, u1, u2, v1, v2, w1, w2], 
            pdd_s:[mcp, u1, u2, v1, v2, w1, w2],
            tpks_s:[mcp, u1, u2, v1, v2, w1, w2], 
+           hpks_s:[mcp, u1, u2, v1, v2, w1, w2], 
            len_tpks_s:[mcp, u1, u2, v1, v2, w1, w2],
            hit_s:[n, z, y, t, m],
            diag_s:[diff_u, tsum_u, diff_v, tsum_v, diff_w, tsum_w]}

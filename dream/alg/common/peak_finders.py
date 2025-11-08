@@ -17,7 +17,7 @@ class hsd_peak_finder():
                     self.finder[self.mapping[k1+k2]] = PyCFD(self.params['dld'])    
         self.ts_wf = None
         
-        self.avail_vars = ['wf', 'pdd', 'tpks', 'len_tpks']
+        self.avail_vars = ['wf', 'pdd', 'tpks', 'hpks', 'len_tpks']
         self.num_keys = len(self.params['keys'].keys())
 
         self.requested = {}
@@ -84,15 +84,20 @@ class hsd_peak_finder():
                 starts = np.array(peaks[k2][0][0]).astype('float')
                 amps = peaks[k2][0][1]
                 tpks_all = np.empty((0,), dtype=float)
+                if self.requested['hpks'][key_pks]: hpks_all = np.empty((0,), dtype=float)
                 for j, (start, amp) in enumerate(zip(starts, amps)):
                     amp = amp.astype('float')
-                    ts = start + np.arange(len(amp))
+                    ts = (start + np.arange(len(amp)))*0.1682692307692308
                     
-                    tpks = self.finder[key_pks](amp.astype(float),ts*0.1682692307692308)     
+                    tpks = self.finder[key_pks](amp, ts)   
                      
-                    if len(tpks)==0: continue
+                    if len(tpks)==0: continue                  
 
                     tpks_all = np.concatenate([tpks_all, tpks])
+
+                    if self.requested['hpks'][key_pks]:
+                        hpks = self.finder[key_pks].get_heights(amp, ts, tpks)  
+                        hpks_all = np.concatenate([hpks_all, hpks])
 
                 
                 self.tpks_dict[key_pks] = tpks_all
@@ -112,6 +117,11 @@ class hsd_peak_finder():
 
                 if self.requested['len_tpks'][key_pks]:
                     self.data_dict['len_tpks_'+self.det_id].update({key_pks: self.len_tpks_dict[key_pks]})
+                    
+                if self.requested['hpks'][key_pks]:
+                    self.data_dict['hpks_'+self.det_id].update({key_pks: hpks_all})
+
+    
         
     def find_peaks_raw(self, det, evt):
         self.tpks_dict = {}
@@ -179,9 +189,9 @@ class PyCFD:
         
             
     def find_peaks(self,wf, wt):        
-        
-        wf = wf[(wt>self.timerange_low)&(wt<self.timerange_high)] 
-        wt = wt[(wt>self.timerange_low)&(wt<self.timerange_high)] #choose the time window of interest        
+        wt_inds = (wt>self.timerange_low)&(wt<self.timerange_high)
+        wf = wf[wt_inds] 
+        wt = wt[wt_inds] #choose the time window of interest        
         
         wf_1 = wf[:-self.delay] #original waveform
         wf_2 = wf[self.delay:] #delayed waveform
@@ -224,3 +234,33 @@ class PyCFD:
             t_cfd_arr = np.append(t_cfd_arr,wt[wf_cal_ind[ind]])
 
         return t_cfd_arr
+
+
+    def get_heights(self, wf, wt, t_arr):
+        
+        k = len(t_arr)
+        if k == 0:
+            return np.array([], dtype=float)
+
+        wt_inds = (wt>self.timerange_low)&(wt<self.timerange_high)
+        print('wf max 0 :', np.max(wf), 'wf min 0 :', np.min(wf), 'self.offset:', self.offset, 'self.polarity:', self.polarity)
+        wf = (wf[wt_inds] - self.offset)*self.polarity 
+        wt = wt[wt_inds] #choose the time window of interest         
+        
+        max_values = np.empty(k, dtype=float)
+    
+        # indices right after each boundary (right-closed)
+        starts = np.searchsorted(wt, t_arr, side='right')
+    
+        for s in range(k):
+            right_boundary = t_arr[s + 1] if s + 1 < k else wt[-1]
+            end = np.searchsorted(wt, right_boundary, side='right')
+    
+            start = starts[s]
+            if start < end:
+                max_values[s] = np.max(wf[start:end])
+            else:
+                max_values[s] = np.nan
+        print('wf max:', np.max(wf))
+        print('max_values:',max_values)
+        return max_values
