@@ -243,7 +243,7 @@ class PyCFD:
             return np.array([], dtype=float)
 
         wt_inds = (wt>self.timerange_low)&(wt<self.timerange_high)
-        print('wf max 0 :', np.max(wf), 'wf min 0 :', np.min(wf), 'self.offset:', self.offset, 'self.polarity:', self.polarity)
+        #print('wf max 0 :', np.max(wf), 'wf min 0 :', np.min(wf), 'self.offset:', self.offset, 'self.polarity:', self.polarity)
         wf = (wf[wt_inds] - self.offset)*self.polarity 
         wt = wt[wt_inds] #choose the time window of interest         
         
@@ -261,6 +261,6 @@ class PyCFD:
                 max_values[s] = np.max(wf[start:end])
             else:
                 max_values[s] = np.nan
-        print('wf max:', np.max(wf))
-        print('max_values:',max_values)
+        # print('wf max:', np.max(wf))
+        # print('max_values:',max_values)
         return max_values

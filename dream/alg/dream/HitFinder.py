@@ -1,12 +1,10 @@
-#The radius condition is currently removed.
-
 import numpy as np
 
 
 class HitFinder:
 
     def __init__(self, params):
-                                #parameter initializations
+                              
         self.uRunTime = params['runtime_u']
         
         self.vRunTime = params['runtime_v']
@@ -41,23 +39,13 @@ class HitFinder:
         
          
         self.sqrt3 = np.sqrt(3.)
+        self.reconstruction_k_diag_tsum = False
+        self.reconstruction_k_diag_diff = False
         
     
         
         
     def FindHits(self, McpSig, u1Sig, u2Sig, v1Sig, v2Sig, w1Sig, w2Sig):
-        
-        
-        
-        # t1u = (-self.uRunTime+2*McpSig+self.uTSumAvg+self.u_diff_offset)/2
-        # t2u = (self.uRunTime+2*McpSig+self.uTSumAvg-self.u_diff_offset)/2
-            
-        # t1v = (-self.vRunTime+2*McpSig+self.vTSumAvg+self.v_diff_offset)/2
-        # t2v = (self.vRunTime+2*McpSig+self.vTSumAvg-self.v_diff_offset)/2
-            
-        # t1w = (-self.wRunTime+2*McpSig+self.wTSumAvg+self.w_diff_offset)/2
-        # t2w = (self.wRunTime+2*McpSig+self.wTSumAvg-self.w_diff_offset)/2   
-
 
         t1u = (-self.uRunTime+2*McpSig+self.uTSumAvg-np.abs(self.u_diff_offset))/2
         t2u = (self.uRunTime+2*McpSig+self.uTSumAvg+np.abs(self.u_diff_offset))/2
@@ -70,7 +58,15 @@ class HitFinder:
         
         
         self.data_dict = {}
-        
+
+        if self.reconstruction_k_diag_tsum:
+            for k in ['u','v','w']:
+                self.data_dict['tsum_'+k] = np.array([])  
+
+        if self.reconstruction_k_diag_diff:
+            for k in ['u','v','w']:
+                self.data_dict['diff_'+k] = np.array([])          
+            
         self.data_dict['x'] = np.array([])
         self.data_dict['y'] = np.array([])
         self.data_dict['t'] = np.array([])
@@ -96,11 +92,26 @@ class HitFinder:
             v1_ind, v2_ind = np.where((v1v2_sum>self.vTSumLow) & (v1v2_sum<self.vTSumHigh))
             w1_ind, w2_ind = np.where((w1w2_sum>self.wTSumLow) & (w1w2_sum<self.wTSumHigh))
                     
-            
+
+            #####           
+            if self.reconstruction_k_diag_tsum:
+                sum_u = u1[u1_ind]+u2[u2_ind] - 2*McpT - self.uTSumAvg
+                sum_v = v1[v1_ind]+v2[v2_ind] - 2*McpT - self.vTSumAvg 
+                sum_w = w1[w1_ind]+w2[w2_ind] - 2*McpT - self.wTSumAvg             
+    
+                self.data_dict['tsum_u'] = np.concatenate([self.data_dict['tsum_u'],sum_u],axis=0)
+                self.data_dict['tsum_v'] = np.concatenate([self.data_dict['tsum_v'],sum_v],axis=0)
+                self.data_dict['tsum_w'] = np.concatenate([self.data_dict['tsum_w'],sum_w],axis=0)   
+            #####
             
             sub_u = u1[u1_ind]-u2[u2_ind]
             sub_v = v1[v1_ind]-v2[v2_ind]
             sub_w = w1[w1_ind]-w2[w2_ind]
+
+            if self.reconstruction_k_diag_diff:
+                self.data_dict['diff_u'] = np.concatenate([self.data_dict['diff_u'],sub_u],axis=0)
+                self.data_dict['diff_v'] = np.concatenate([self.data_dict['diff_v'],sub_v],axis=0)
+                self.data_dict['diff_w'] = np.concatenate([self.data_dict['diff_w'],sub_w],axis=0)                
             
             sub_uf = (sub_u-self.u_diff_offset)*self.f_u/2
             sub_vf = (sub_v-self.v_diff_offset)*self.f_v/2
@@ -122,22 +133,5 @@ class HitFinder:
                 self.data_dict['y'] = np.concatenate([self.data_dict['y'],y[inds][0:1]],axis=0)
                 self.data_dict['t'] = np.concatenate([self.data_dict['t'],np.array([McpT])],axis=0)            
             
-            # self.data_dict['x'] = np.concatenate([self.data_dict['x'],x[inds]],axis=0)
-            # self.data_dict['y'] = np.concatenate([self.data_dict['y'],y[inds]],axis=0)
-            # self.data_dict['t'] = np.concatenate([self.data_dict['t'],McpT*np.ones(int(inds.sum()))],axis=0)
-            
-
-            
-            # Xuw = sub_uf[:,np.newaxis] + 0*sub_wf[np.newaxis,:]
-            # Yuw = (2*sub_wf[np.newaxis,:] - sub_uf[:,np.newaxis])/self.sqrt3            
-            # self.data_dict['x_uw'] = np.concatenate([self.data_dict['x_uw'],np.ravel(Xuw)],axis=0)
-            # self.data_dict['y_uw'] = np.concatenate([self.data_dict['y_uw'],np.ravel(Yuw)],axis=0)   
-            # self.data_dict['t_uw'] = np.concatenate([self.data_dict['t_uw'],McpT*np.ones(len(np.ravel(Xuw)))],axis=0)
-
-            # Xvw = sub_vf[:,np.newaxis] + sub_wf[np.newaxis,:]
-            # Yvw = (sub_wf[np.newaxis,:] - sub_vf[:,np.newaxis])/self.sqrt3                   
-            # self.data_dict['x_vw'] = np.concatenate([self.data_dict['x_vw'],np.ravel(Xvw)],axis=0)
-            # self.data_dict['y_vw'] = np.concatenate([self.data_dict['y_vw'],np.ravel(Yvw)],axis=0)   
-            # self.data_dict['t_vw'] = np.concatenate([self.data_dict['t_vw'],McpT*np.ones(len(np.ravel(Xvw)))],axis=0)
 
         self.data_dict['n'] = np.array([len(self.data_dict['t'])])
