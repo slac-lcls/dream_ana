@@ -1,5 +1,6 @@
 from typing import Any
 import copy
+from psana import DataSource
 
 DetectorReturnMap = dict[str, list[str]]          # prefix -> trailing names
 DetectorMap = dict[str, DetectorReturnMap]        # detector -> return map
@@ -166,8 +167,6 @@ def check_detectors(
 
 
 def init(rank, mode, exp, run_num, config, callbacks):
-    from psana import DataSource
-    
     if mode == 'offline':
         import os, glob
         h5_dir = config['h5']['path1'] + exp + config['h5']['path2']

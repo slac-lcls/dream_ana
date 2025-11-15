@@ -6,11 +6,17 @@ from dream.util.comm import comm_online, comm_offline
 from dream.alg.common.x import scan, bld, epics, timing
 from dream.util.callback import callback_online
 
-from mpi4py import MPI
-comm = MPI.COMM_WORLD
-rank = comm.Get_rank()
-numworkers = comm.Get_size()-1
-if numworkers==0: numworkers=1 # the single core case (no mpi)
+# from mpi4py import MPI
+# comm = MPI.COMM_WORLD
+# rank = comm.Get_rank()
+# numworkers = comm.Get_size()-1
+# if numworkers==0: numworkers=1 # the single core case (no mpi)
+
+##
+rank = int(os.getenv("OMPI_COMM_WORLD_RANK", 0))
+size = int(os.getenv("OMPI_COMM_WORLD_SIZE", 1))
+numworkers = max(size - 1, 1)
+##
 
 mode, exp, run_num = read_args()
 if rank==0: print('running '+mode+'...')
