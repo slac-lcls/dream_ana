@@ -37,6 +37,7 @@ def a_gatedOn_bc(arr1, arr2, arr3, l2, r2, l3, r3):
     inds = (arr2>l2)&(arr2<r2)&(arr3>l3)&(arr3<r3)
     return arr1[inds]
 
+
 def n_gatedOn_abc(n_arr, arr1, arr2, arr3, l1, r1, l2, r2, l3, r3):
 
     inds = (arr1>l1)&(arr1<r1)&(arr2>l2)&(arr2<r2)&(arr3>l3)&(arr3<r3)
@@ -46,4 +47,3 @@ def n_gatedOn_abc(n_arr, arr1, arr2, arr3, l1, r1, l2, r2, l3, r3):
                         minlength=n_arr.size)
 
     return n_arr.astype(int)
-

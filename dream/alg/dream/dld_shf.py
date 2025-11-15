@@ -1,9 +1,7 @@
 import os
 import numpy as np
-from pathlib import Path
-from dream.util.setup import read_config
 from dream.alg.common.peak_finders import hsd_peak_finder
-from dream.util.misc import lists_intersection
+from dream.util.misc import read_config, lists_intersection
 from .HitFinder import HitFinder
 
 class dld_reconstructor:
@@ -50,6 +48,7 @@ class dld_reconstructor:
         self.avail_vars_k0 = ['n', 'z', 'y', 't']
         self.avail_vars_k_diag_tsum = ['tsum_u', 'tsum_v', 'tsum_w']
         self.avail_vars_k_diag_diff = ['diff_u', 'diff_v', 'diff_w']
+        self.avail_vars_k_diag = self.avail_vars_k_diag_tsum + self.avail_vars_k_diag_diff
 
         self.reconstruction_k0 = False
         if self.k0 in requested_vars.keys():
@@ -78,8 +77,17 @@ class dld_reconstructor:
         self.SHF.reconstruction_k_diag_tsum = self.reconstruction_k_diag_tsum        
         self.SHF.reconstruction_k_diag_diff = self.reconstruction_k_diag_diff
 
+        self.reconstruction_k_diag = self.reconstruction_k_diag_tsum or self.reconstruction_k_diag_diff
         
-        self.reconstruction = (self.reconstruction_k0 or self.reconstruction_k_diag_tsum or self.reconstruction_k_diag_diff)        
+        self.reconstruction = (self.reconstruction_k0 or self.reconstruction_k_diag)        
+
+        if self.reconstruction_k_diag:
+            for a_var in self.avail_vars_k_diag:
+                if a_var in requested_vars[self.k_diag]:
+                    self.requested[a_var] = True
+                else:
+                    self.requested[a_var] = False
+                    
         ##########
 
         ###
@@ -136,12 +144,14 @@ class dld_reconstructor:
                 if self.reconstruction_k_diag_tsum:
                     self.data_dict[self.k_diag] = {}                           
                     for k_diff_sum in self.avail_vars_k_diag_tsum:
-                        self.data_dict[self.k_diag][k_diff_sum] = self.SHF.data_dict[k_diff_sum]
+                        if self.requested[k_diff_sum]: self.data_dict[self.k_diag][k_diff_sum] = self.SHF.data_dict[k_diff_sum]
 
                 if self.reconstruction_k_diag_diff:
                     if self.k_diag not in self.data_dict.keys(): self.data_dict[self.k_diag] = {}                         
                     for k_diff_sum in self.avail_vars_k_diag_diff:
-                        self.data_dict[self.k_diag][k_diff_sum] = self.SHF.data_dict[k_diff_sum]                
+                        if self.requested[k_diff_sum]: self.data_dict[self.k_diag][k_diff_sum] = self.SHF.data_dict[k_diff_sum]  
+
+            
                  
 #####
                 if self.reconstruction_k0:
@@ -153,6 +163,8 @@ class dld_reconstructor:
                     if self.requested['z']: self.data_dict[self.k0]['z'] = self.sign_z*self.SHF.data_dict['y']
                     if self.requested['y']: self.data_dict[self.k0]['y'] = self.SHF.data_dict['x']
 
+                #z_len, tsum_len = len(self.data_dict[self.k0]['z']), len(self.data_dict[self.k_diag]['tsum_u'])
+                #print('z_len:', z_len, 'tsum_u_len:', tsum_len)#, 'ratio:', tsum_len/z_len)
 
                 if self.pipico:
                     self.data_dict[self.k_pp] = {}
@@ -202,11 +214,11 @@ class dld_reconstructor:
                 if self.reconstruction_k_diag_tsum:
                     self.data_dict[self.k_diag] = {}                           
                     for k_diff_sum in self.avail_vars_k_diag_tsum:
-                        self.data_dict[self.k_diag][k_diff_sum] = np.array([np.nan]) 
+                        if self.requested[k_diff_sum]: self.data_dict[self.k_diag][k_diff_sum] = np.array([np.nan]) 
 
                 if self.reconstruction_k_diag_diff:
                     if self.k_diag not in self.data_dict.keys(): self.data_dict[self.k_diag] = {}                         
                     for k_diff_sum in self.avail_vars_k_diag_diff:
-                        self.data_dict[self.k_diag][k_diff_sum] = np.array([np.nan])                     
+                        if self.requested[k_diff_sum]: self.data_dict[self.k_diag][k_diff_sum] = np.array([np.nan])                     
                     
                       

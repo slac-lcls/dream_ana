@@ -67,6 +67,7 @@ class comm_online:
                 continue
             elif k1 == 'x':
                 for k2 in evt_dict[k1].keys():
+                    if k2 == 'time_stamp': continue 
                     self.data_dict_acc[k2] = np.append(self.data_dict_acc[k2], evt_dict[k1][k2])                
             else:
                 for k2 in evt_dict[k1].keys():
@@ -84,6 +85,7 @@ class comm_online:
             self.histogram()
             self.data_dict['rank'] = rank
             smd.event(evt, self.data_dict)
+            #print(self.data_dict['vsum[l]'])
     
             for k in self.data_dict_acc.keys():
                 self.data_dict_acc[k] = np.zeros(0, dtype=float)
@@ -128,7 +130,7 @@ class comm_offline:
                     data_dict['ragged']['var_'+k][var] = evt_dict[k][var]
 
 
-                if 'x' in evt_dict.keys():
+                if self.config['xpand'] and 'x' in evt_dict.keys():
                     for xk in evt_dict['x'].keys():
                         data_dict['ragged']['var_'+k][xk] = np.full(evt_dict[k][var].shape, evt_dict['x'][xk])
 
@@ -140,9 +142,9 @@ class comm_offline:
                 for var in self.config['data']['ragged_split'][k]['var']:
                     data_dict['ragged'][k]['var_'+var] = {var: evt_dict[k][var]}
 
-                    if 'x' in evt_dict.keys():
-                        for xk in evt_dict['x'].keys():
-                            data_dict['ragged'][k]['var_'+var][xk] = np.full(evt_dict[k][var].shape, evt_dict['x'][xk], dtype=float)
+                    # if 'x' in evt_dict.keys():
+                    #     for xk in evt_dict['x'].keys():
+                    #         data_dict['ragged'][k]['var_'+var][xk] = np.full(evt_dict[k][var].shape, evt_dict['x'][xk], dtype=float)
               
         if 'x' in evt_dict.keys():
             data_dict['x'] = evt_dict['x']

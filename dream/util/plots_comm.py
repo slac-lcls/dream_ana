@@ -8,6 +8,9 @@ from dream.util.histogram import (
 
 import numpy as np
 
+import os, sys
+custom_dir = os.getenv("CUSTOMDIR")
+sys.path.insert(0, custom_dir)
 from dream.util.misc import mk_func
 
 class BaseWorkerPlot:

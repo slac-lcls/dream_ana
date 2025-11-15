@@ -1,8 +1,7 @@
-import sys, os, importlib
-import numpy as np
-from pathlib import Path
-from dream.util.setup import read_config, read_args, check_detectors, init
-from dream.util.misc import deep_merge
+import time
+import os, importlib
+from dream.util.setup import check_detectors, init
+from dream.util.misc import read_config, read_args, deep_merge
 from dream.util.comm import comm_online, comm_offline
 from dream.alg.common.x import scan, bld, epics, timing
 from dream.util.callback import callback_online
@@ -18,8 +17,8 @@ if rank==0: print('running '+mode+'...')
 if mode == 'online':
     os.environ['PS_SRV_NODES']='1' 
 elif numworkers>20 and mode == 'offline':
-    SRV_NODES = int(2*numworkers/100)
-    EB_NODES = int(6*numworkers/100)
+    SRV_NODES = int(2*numworkers/120)
+    EB_NODES = int(3*numworkers/120)
     os.environ['PS_SRV_NODES']=str(SRV_NODES)
     os.environ['PS_EB_NODES']=str(EB_NODES)
 
@@ -32,26 +31,24 @@ detectors, config, requested_vars_by_detector = check_detectors(config, config_d
 
 if rank==0: 
     print(requested_vars_by_detector)
-    
-    
+
 algs = {}
 for det in detectors:
     mod = importlib.import_module(config_det[det]['module'])
     alg = getattr(mod, config_det[det]['alg'])
     algs[det] = alg(**config_det[det]['kwargs'], requested_vars = requested_vars_by_detector[det], rank = rank) if 'kwargs' in config_det[det].keys() else alg(requested_vars = requested_vars_by_detector[det])
 
-
 if mode=='online':
     comm = comm_online(config, requested_vars_by_detector)
     callback = callback_online(rank, numworkers, config)
     callbacks=[callback.smalldata]
-    
 else:
     comm = comm_offline(config)
     callbacks = []
 
 while 1: 
-    ds, smd = init(rank, mode, exp, run_num, config, callbacks=callbacks)
+    ds, smd = init(rank, mode, exp, run_num, config, callbacks=callbacks) 
+
     for run in ds.runs():
         dets = {}
         detectors_rm = []
@@ -89,7 +86,7 @@ while 1:
         for step_i, step in enumerate(run.steps()):
             for nevt,evt in enumerate(step.events()):
                 
-                try:
+                if True: #try:
                     evt_dict = {}     
                     deep_merge(evt_dict, {'x':{'time_stamp': evt.timestamp}})
                     for det in detectors:
@@ -98,8 +95,8 @@ while 1:
                     comm.send(rank, smd, n_evt, evt, evt_dict)
                     n_evt += 1
                 
-                except Exception as err:
-                   print(err)
+                # except Exception as err:
+                #    print(err)
             
         if mode == 'online': 
             #pass

@@ -421,7 +421,7 @@ class SigBkg1DPlot(BasePlot):
         y_arrays = [sig, bkg]
         formats  = ['-','-']
         labels   = [f"{self.name}_sig", f"{self.name}_bkg"]
-        
+ 
         if self.op_type == 'div':
             with np.errstate(divide='ignore', invalid='ignore'):
                 ratio = sig / bkg

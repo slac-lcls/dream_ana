@@ -1,8 +1,6 @@
-import os
 import numpy as np
-from dream.util.setup import read_config
 from scipy.ndimage import gaussian_filter1d
-from scipy.signal import find_peaks
+from scipy.signal import find_peaks    
 
 class scan:
     def __init__(self, requested_vars):
@@ -163,6 +161,9 @@ class timing:
 
 class atm:
     def __init__(self, requested_vars):
+
+        import os
+        from dream.util.misc import read_config    
         
         self.det_id = 'atm'
 
@@ -190,6 +191,7 @@ class atm:
             if 'line' in self.requested_vars[self.det_id]: self.data_dict['atm'] = {'line':[]}
             if 'gline' in self.requested_vars[self.det_id]: self.data_dict['atm'] = {'gline':[]}
             if 'edge' in self.requested_vars[self.det_id]: self.data_dict['x'][self.det_id+':'+'edge'] = np.nan
+            if 'prom' in self.requested_vars[self.det_id]: self.data_dict['x'][self.det_id+':'+'edge'] = np.nan
                 
         return self.data_dict
 
@@ -249,6 +251,7 @@ class atm:
 
 class fzp:
     def __init__(self, requested_vars):
+        from dream.util.misc import read_config
         self.det_id = 'fzp'
 
         config_dir = os.getenv("CONFIGDIR")
