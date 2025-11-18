@@ -94,7 +94,7 @@ while 1:
                 
                 if True: #try:
                     evt_dict = {}     
-                    deep_merge(evt_dict, {'x':{'time_stamp': evt.timestamp}})
+                    deep_merge(evt_dict, {'x':{'timestamp': evt.timestamp}})
                     for det in detectors:
                         deep_merge(evt_dict, algs[det](dets[det], evt, evt_dict['x']))
                             

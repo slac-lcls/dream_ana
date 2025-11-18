@@ -6,14 +6,17 @@ h5:
   path1: /sdf/data/lcls/ds/tmo/
   path2: /scratch/xiangli/h5/
   name1: run
-  name2: .h5
+  name2: _3.h5
 log:
   path1: /sdf/data/lcls/ds/tmo/
   path2: /scratch/xiangli/log/
 
  
 data:
-  # ragged_split:
+
+  ragged_split:
+    hit_l:
+      var: [n]  
   #   tpks_l:
   #     var: [mcp,u1,u2,v1,v2,w1,w2]
   #   hpks_l:
@@ -25,7 +28,7 @@ data:
     # hit_s:
     #   var: [z, y, t, m]
     hit_l:
-      var: [z, y, t, m, n]     
+      var: [z, y, t, m]     
     diag_l:
       var: [tsum_u, tsum_v, tsum_w, diff_u, diff_v, diff_w]
 
