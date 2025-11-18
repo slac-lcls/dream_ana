@@ -85,7 +85,6 @@ class comm_online:
             self.histogram()
             self.data_dict['rank'] = rank
             smd.event(evt, self.data_dict)
-            #print(self.data_dict['vsum[l]'])
     
             for k in self.data_dict_acc.keys():
                 self.data_dict_acc[k] = np.zeros(0, dtype=float)
@@ -106,21 +105,21 @@ class comm_offline:
         if 'uniform' in self.config['data'].keys():
             for k in self.config['data']['uniform'].keys():
                 if 'uniform' not in data_dict.keys(): data_dict['uniform'] = {}
-                data_dict['uniform'][k] = {}
-                max_len = self.config['data']['uniform'][k]['len']   
+                data_dict['uniform'][k] = {}                   
                 
                 if 'fvar' in self.config['data']['uniform'][k].keys():
-                    for var in self.config['data']['uniform'][k]['fvar']:
-                      
+                    for var in self.config['data']['uniform'][k]['fvar']:                      
                         data_dict['uniform'][k][var] = evt_dict[k][var]
-                
-                for var in self.config['data']['uniform'][k]['var']:
-                    temp = np.full((max_len,), np.nan)
-                    var_len = len(evt_dict[k][var])
-                    if var_len>0:
-                        temp_len = min(var_len, max_len) 
-                        temp[:temp_len] = evt_dict[k][var][:temp_len]                           
-                    data_dict['uniform'][k][var] = temp
+
+                if 'var' in self.config['data']['uniform'][k].keys():
+                    max_len = self.config['data']['uniform'][k]['len']
+                    for var in self.config['data']['uniform'][k]['var']:
+                        temp = np.full((max_len,), np.nan)
+                        var_len = len(evt_dict[k][var])
+                        if var_len>0:
+                            temp_len = min(var_len, max_len) 
+                            temp[:temp_len] = evt_dict[k][var][:temp_len]                           
+                        data_dict['uniform'][k][var] = temp
                 
         if 'ragged' in self.config['data'].keys():
             for k in self.config['data']['ragged'].keys():
@@ -133,7 +132,6 @@ class comm_offline:
                 if self.config['xpand'] and 'x' in evt_dict.keys():
                     for xk in evt_dict['x'].keys():
                         data_dict['ragged']['var_'+k][xk] = np.full(evt_dict[k][var].shape, evt_dict['x'][xk])
-                        print(evt_dict[k][var].shape,var, xk)
 
         
         if 'ragged_split' in self.config['data'].keys():
