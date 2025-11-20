@@ -169,27 +169,15 @@ def check_detectors(
 def init(rank, mode, exp, run_num, config, callbacks):
     if mode == 'offline':
         import os, glob
-
-        def mkdir_force_2775(path):
-            if os.path.isdir(path):
-                return
-                
-            # Temporarily set umask to allow group write
-            old_umask = os.umask(0o002)  
-            try:
-                os.makedirs(path, exist_ok=True)
-            finally:
-                # Restore original umask even if makedirs fails
-                os.umask(old_umask)        
-            # Force setgid + 775 permissions
-            os.chmod(path, 0o2775)
-    
+        permissions_mode = 0o775
+        log_dir = config['log']['path1'] + exp + config['log']['path2']
+        log_parent = os.path.dirname(log_dir)
+        os.makedirs(log_parent, mode=permissions_mode, exist_ok=True)        
+        os.makedirs(log_dir, mode=permissions_mode, exist_ok=True)   
+        
         h5_dir = config['h5']['path1'] + exp + config['h5']['path2']
         h5_path = h5_dir + config['h5']['name1'] + str(run_num) + config['h5']['name2']
-
-        mkdir_force_2775(h5_dir)
-        log_dir = config['log']['path1'] + exp + config['log']['path2']
-        mkdir_force_2775(log_dir)
+        os.makedirs(h5_dir, mode=permissions_mode, exist_ok=True)     
 
         pattern = h5_path[:-3]+'_*.h5'
         files_to_delete = glob.glob(pattern)+glob.glob(h5_path)    
