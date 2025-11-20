@@ -6,28 +6,23 @@ from dream.util.comm import comm_online, comm_offline
 from dream.alg.common.x import scan, bld, epics, timing
 from dream.util.callback import callback_online
 
-# from mpi4py import MPI
-# comm = MPI.COMM_WORLD
-# rank = comm.Get_rank()
-# numworkers = comm.Get_size()-1
-# if numworkers==0: numworkers=1 # the single core case (no mpi)
-
-##
 rank = int(os.getenv("OMPI_COMM_WORLD_RANK", 0))
 size = int(os.getenv("OMPI_COMM_WORLD_SIZE", 1))
 numworkers = max(size - 1, 1)
-##
 
 mode, exp, run_num = read_args()
 if rank==0: print('running '+mode+'...')
 if mode == 'online':
     os.environ['PS_SRV_NODES']='1' 
-elif numworkers>20 and mode == 'offline':
+elif numworkers>120 and mode == 'offline':
     SRV_NODES = int(2*numworkers/120)
     EB_NODES = int(3*numworkers/120)
     os.environ['PS_SRV_NODES']=str(SRV_NODES)
     os.environ['PS_EB_NODES']=str(EB_NODES)
-
+else:
+    os.environ['PS_SRV_NODES']='1'
+    os.environ['PS_EB_NODES']='1' 
+    
 config_dir = os.getenv("CONFIGDIR")
 instrument = read_config(config_dir+'instrument.yaml')['instrument']
 config = read_config(config_dir+instrument+'/'+mode+'.yaml') 

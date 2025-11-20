@@ -171,6 +171,9 @@ def init(rank, mode, exp, run_num, config, callbacks):
         import os, glob
 
         def mkdir_force_2775(path):
+            if os.path.isdir(path):
+                return
+                
             # Temporarily set umask to allow group write
             old_umask = os.umask(0o002)  
             try:
