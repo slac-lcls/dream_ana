@@ -107,6 +107,7 @@ class epics:
         try:
             self.get_vars(*args, **kwargs)
         except Exception as err:
+            print('epics error:', err)
             self.data_dict['x'] = {}
             for requested_var in self.requested_vars[self.det_id]:
                 self.data_dict['x'][self.det_id+':'+requested_var] = np.nan           
@@ -115,8 +116,8 @@ class epics:
 
     def get_vars(self, det, evt, *args, **kwargs):
         self.data_dict['x'] = {}
-        for i, requested_var in enumerate(self.requested_vars[self.det_id]): 
-            self.data_dict['x'][self.det_id+':'+requested_var] = det[self.params['det']['keys'][i]](evt) if det[self.params['det']['keys'][i]] is not None else np.nan   
+        for i, requested_var in enumerate(self.requested_vars[self.det_id]):
+            self.data_dict['x'][self.det_id+':'+requested_var] = det[self.params['det']['keys'][i]](evt) if det[self.params['det']['keys'][i]] is not None and det[self.params['det']['keys'][i]](evt) is not None else np.nan   
 
 
 class timing:

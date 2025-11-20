@@ -30,14 +30,14 @@ data:
     #   var: [z, y, t, m]
     hit_l:
       var: [z, y, t, m]     
-    diag_l:
-      var: [tsum_u, tsum_v, tsum_w, diff_u, diff_v, diff_w]
+    # diag_l:
+    #   var: [tsum_u, tsum_v, tsum_w, diff_u, diff_v, diff_w]
 
 
-  # x:
-  #   scan: [var1, var2]
-  #   bld: [gmd, xgmd]
-  #   timing: ['280','281','282','dest']
-  #   atm: [edge, prom] 
-  #   epics: [las_ip2_atm_dly]
+  x:
+    scan: [var1, var2]
+    bld: [gmd, xgmd]
+    timing: ['280','281','282','dest']
+    atm: [edge, prom] 
+    epics: [las_ip2_atm_dly]
 
