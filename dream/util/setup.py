@@ -169,6 +169,18 @@ def check_detectors(
 def init(rank, mode, exp, run_num, config, callbacks):
     if mode == 'offline':
         import os, glob
+
+        def mkdir_force_2775(path):
+            # Temporarily set umask to allow group write
+            old_umask = os.umask(0o002)  
+            try:
+                os.makedirs(path, exist_ok=True)
+            finally:
+                # Restore original umask even if makedirs fails
+                os.umask(old_umask)        
+            # Force setgid + 775 permissions
+            os.chmod(path, 0o2775)
+    
         h5_dir = config['h5']['path1'] + exp + config['h5']['path2']
         h5_path = h5_dir + config['h5']['name1'] + str(run_num) + config['h5']['name2']
 
@@ -204,15 +216,4 @@ def init(rank, mode, exp, run_num, config, callbacks):
         smd = ds.smalldata(batch_size=1, callbacks=callbacks)        
     return ds, smd
 
-def mkdir_force_2775(path):
-    # Temporarily set umask to allow group write
-    old_umask = os.umask(0o002)
 
-    try:
-        os.makedirs(path, exist_ok=True)
-    finally:
-        # Restore original umask even if makedirs fails
-        os.umask(old_umask)
-
-    # Force setgid + 775 permissions
-    os.chmod(path, 0o2775)
