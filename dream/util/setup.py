@@ -171,11 +171,10 @@ def init(rank, mode, exp, run_num, config, callbacks):
         import os, glob
         h5_dir = config['h5']['path1'] + exp + config['h5']['path2']
         h5_path = h5_dir + config['h5']['name1'] + str(run_num) + config['h5']['name2']        
-        if "SLURM_JOB_ID" not in os.environ:
-            permissions_mode = 0o775
-            os.makedirs(h5_dir, mode=permissions_mode, exist_ok=True)                
-            log_dir = config['log']['path1'] + exp + config['log']['path2']   
-            os.makedirs(log_dir, mode=permissions_mode, exist_ok=True)   
+        permissions_mode = 0o775
+        os.makedirs(h5_dir, mode=permissions_mode, exist_ok=True)                
+        log_dir = config['log']['path1'] + exp + config['log']['path2']   
+        os.makedirs(log_dir, mode=permissions_mode, exist_ok=True)   
         
         pattern = h5_path[:-3]+'_*.h5'
         files_to_delete = glob.glob(pattern)+glob.glob(h5_path)    
