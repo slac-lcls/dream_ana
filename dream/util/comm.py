@@ -150,7 +150,7 @@ class comm_offline:
 
         smd.event(evt, data_dict)
 
-        if nevt%2000==0: print('rank:', rank, 'nevt:',nevt)
+        #if nevt%2000==0: print('rank:', rank, 'nevt:',nevt)
 
 
 
