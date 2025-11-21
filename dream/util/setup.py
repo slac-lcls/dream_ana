@@ -169,18 +169,13 @@ def check_detectors(
 def init(rank, mode, exp, run_num, config, callbacks):
     if mode == 'offline':
         import os, glob
-
         h5_dir = config['h5']['path1'] + exp + config['h5']['path2']
         h5_path = h5_dir + config['h5']['name1'] + str(run_num) + config['h5']['name2']        
         if "SLURM_JOB_ID" not in os.environ:
-            print("SLURM_JOB_ID not in")
             permissions_mode = 0o775
-            os.makedirs(h5_dir, mode=permissions_mode, exist_ok=True)     
-            
+            os.makedirs(h5_dir, mode=permissions_mode, exist_ok=True)                
             log_dir = config['log']['path1'] + exp + config['log']['path2']   
             os.makedirs(log_dir, mode=permissions_mode, exist_ok=True)   
-        else:
-            print("SLURM_JOB_ID in")
         
         pattern = h5_path[:-3]+'_*.h5'
         files_to_delete = glob.glob(pattern)+glob.glob(h5_path)    
