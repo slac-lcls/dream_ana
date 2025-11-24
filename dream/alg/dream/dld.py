@@ -69,7 +69,7 @@ class dld_reconstructor:
         
         self.requested = {}
         if self.reconstruction_k0: 
-            self.hits_thresh = self.params['hr']['max_hits']**7
+            self.hits_thresh = self.params['hr']['max_hits']*7
             for a_var in self.avail_vars_k0:
                 if a_var in requested_vars[self.k0]:
                     self.requested[a_var] = True
@@ -126,7 +126,7 @@ class dld_reconstructor:
 
         if self.reconstruction:
 
-            len_peaks = 1
+            len_peaks = 0
             if self.peak_finder.peak_exist:
                 ks = self.peak_finder.tpks_dict.keys()
                 if len(ks) != 7:
@@ -136,11 +136,7 @@ class dld_reconstructor:
                             self.peak_finder.len_tpks_dict[sig_name] = 0
                             
                 for sig_name in self.sig_names: 
-                    len_peaks *= (len(self.peak_finder.tpks_dict[sig_name])+1)
-                    self.RHF.set_peaks_arr(sig_name, 
-                                           self.peak_finder.tpks_dict[sig_name] - self.sig_offset_dict[sig_name], 
-                                           self.peak_finder.len_tpks_dict[sig_name])                                    
-                
+                    len_peaks += (len(self.peak_finder.tpks_dict[sig_name]))                                                  
 
                 if len_peaks > self.hits_thresh: 
                     self.data_dict[self.k0] = {}
@@ -165,7 +161,10 @@ class dld_reconstructor:
                             
                     return
 
-           
+                for sig_name in self.sig_names:                    
+                    self.RHF.set_peaks_arr(sig_name, 
+                                           self.peak_finder.tpks_dict[sig_name] - self.sig_offset_dict[sig_name], 
+                                           self.peak_finder.len_tpks_dict[sig_name])              
                     
                 self.RHF.pre_sort()  
 
