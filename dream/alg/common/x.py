@@ -242,9 +242,14 @@ class atm:
         prj = np.concatenate([prj[hl_kernel:0:-1], prj, prj[-1:-hl_kernel:-1]])   
         conv = np.convolve(prj,kernel,'valid')
         pks, props = find_peaks(conv, prominence=(conv.max()-conv.mean())/2)
-        argmax = np.argmax(props['prominences'])
-        pk = np.nan if len(pks)==0 else pks[argmax]
-        return pk, props['prominences'][argmax] #conv, kernel
+        if len(pks)>0:
+            argmax = np.argmax(props['prominences']) 
+            pk = pks[argmax]        
+            prop = props['prominences'][argmax]
+        else:
+            pk = np.nan
+            prop = np.nan
+        return pk, prop
             
 
        

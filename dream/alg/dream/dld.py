@@ -36,7 +36,7 @@ class dld_reconstructor:
         settings = [self.params['hr'][setting_name] for setting_name in setting_names]
         self.RHF = PyASort()
         s_corr, p_corr = 1, 1
-        _ = self.RHF.init_sorter(config_dir, 0, 1, s_corr, p_corr, *settings)
+        _ = self.RHF.init_sorter(config_dir, self.det_id, 0, 1, s_corr, p_corr, *settings)
     
 
         self.sig_offset_dict = {}
