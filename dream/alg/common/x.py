@@ -202,25 +202,27 @@ class atm:
         line_req = 'line' in self.requested_vars[self.det_id]
         gline_req = 'gline' in self.requested_vars[self.det_id]
         if line_req or gline_req: self.data_dict['atm'] = {}
-        if line_req: self.data_dict['atm']['line'] = line
-        if gline_req: self.data_dict['atm']['gline'] = gaussian_filter1d(line,self.params['gfw'])
+        line_exists = line is not None
+        if line_req: self.data_dict['atm']['line'] = line if line_exists else []
+        if gline_req: self.data_dict['atm']['gline'] = gaussian_filter1d(line,self.params['gfw']) if line_exists else []
 
         if 'edge' in self.requested_vars[self.det_id]:
             edge = np.nan
             prom = np.nan
             self.data_dict['x'] = {}
-            if x['timing:281'] == 1:
-                if self.bkg is None:
-                    self.bkg = line
-                else:
-                    self.bkg = self.bkg*(1.-self.beta) + line*self.beta     
-         
-            if x['timing:280'] == 1:
-                if self.bkg is None: 
-                    edge = np.nan
-                    prom = np.nan
-                else:
-                    edge, prom = self.find_edges(line, self.bkg)
+            if line_exists:
+                if x['timing:281'] == 1:
+                    if self.bkg is None:
+                        self.bkg = line
+                    else:
+                        self.bkg = self.bkg*(1.-self.beta) + line*self.beta     
+             
+                if x['timing:280'] == 1:
+                    if self.bkg is None: 
+                        edge = np.nan
+                        prom = np.nan
+                    else:
+                        edge, prom = self.find_edges(line, self.bkg)
             self.data_dict['x'][self.det_id+':'+'edge'] = edge
             if 'prom' in self.requested_vars[self.det_id]: self.data_dict['x'][self.det_id+':'+'prom'] = prom
         

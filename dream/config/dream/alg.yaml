@@ -12,9 +12,9 @@ l:
       fraction: 1
       delay: 4
       polarity: "Negative"
-      threshold: 500
+      threshold: 1500
       walk: 0
-      timerange_low: 600
+      timerange_low: 200
       timerange_high: 15000.0
       offset: 16384
     dld:
@@ -22,9 +22,9 @@ l:
       fraction: 1
       delay: 5
       polarity: "Negative"
-      threshold: 500
+      threshold: 1300
       walk: 0
-      timerange_low: 600
+      timerange_low: 200
       timerange_high: 15000.0
       offset: 20000
   hr:
@@ -35,14 +35,14 @@ l:
     u_diff_offset: 1.5
     v_diff_offset: -2.5
     w_diff_offset: 6
-    tsum_avg_u: 44.1
-    tsum_hw_u: 5
-    tsum_avg_v: 2.2
-    tsum_hw_v: 5
-    tsum_avg_w: 32.5
+    tsum_avg_u: 47.2
+    tsum_hw_u: 3
+    tsum_avg_v: 16.75
+    tsum_hw_v: 4
+    tsum_avg_w: 27.5
     tsum_hw_w: 5
     f_u: 0.784
-    f_v: 0.806
+    f_v: 0.8055
     f_w: 0.783
     pos_offset_x: 0
     pos_offset_y: 0
@@ -83,21 +83,21 @@ s:
       offset: 20000
   hr:
     max_hits: 15
-    runtime_u: 200
-    runtime_v: 200
-    runtime_w: 200
-    u_diff_offset: -7
-    v_diff_offset: 1269
-    w_diff_offset: 1263.5
-    tsum_avg_u: 2688
-    tsum_hw_u: 5
-    tsum_avg_v: 1415.7
-    tsum_hw_v: 5
-    tsum_avg_w: 1423
-    tsum_hw_w: 5
-    f_u: 0.789
-    f_v: 0.789
-    f_w: 0.777
+    runtime_u: 149.65
+    runtime_v: 150.5
+    runtime_w: 147.25
+    u_diff_offset: -1.05
+    v_diff_offset: -3.0
+    w_diff_offset: 5.15
+    tsum_avg_u: 161.6
+    tsum_hw_u: 3
+    tsum_avg_v: -2372.6
+    tsum_hw_v: 3
+    tsum_avg_w: 147
+    tsum_hw_w: 3
+    f_u: 0.802
+    f_v: 0.797
+    f_w: 0.815
     pos_offset_x: 0
     pos_offset_y: 0
     w_offset: 0
