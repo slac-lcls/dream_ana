@@ -75,17 +75,23 @@ class hsd_peak_finder():
             peaks = det[k1].raw.peaks(evt)  
             wfs = det[k1].raw.waveforms(evt) 
             padded = det[k1].raw.padded(evt) 
+            fex_status_2 = det[k1].raw.fex_status(evt)
             if peaks is None:
                 #print(k1+' FEX is empty!!!')
                 self.num_None += 1
                 continue
+            
             for i, k2 in enumerate(peaks.keys()):
+                fex_status = fex_status_2[k2][0][0][0]
                 key_pks = self.mapping[k1+str(k2)]
                 starts = np.array(peaks[k2][0][0]).astype('float')
                 amps = peaks[k2][0][1]
                 tpks_all = np.empty((0,), dtype=float)
                 if self.requested['hpks'][key_pks]: hpks_all = np.empty((0,), dtype=float)
-                for j, (start, amp) in enumerate(zip(starts, amps)):
+                for j, (start, amp) in enumerate(zip(starts, amps)):                    
+                    if fex_status>0:
+                        #print('FEX wrapped, unwrapping it now.')
+                        amp = np.unwrap(amp, period=2**15)
                     amp = amp.astype('float')
                     ts = (start + np.arange(len(amp)))*0.1682692307692308
                     
