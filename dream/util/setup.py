@@ -199,7 +199,7 @@ def init(rank, mode, exp, run_num, config, callbacks):
     elif mode == 'online':
         # ds = DataSource(shmem='tmo_meb1')
         ###
-        ds = DataSource(exp='tmo101347825',run=236)             
+        ds = DataSource(exp='tmo101247125',run=91)             
         #####
         smd = ds.smalldata(batch_size=1, callbacks=callbacks)        
     return ds, smd

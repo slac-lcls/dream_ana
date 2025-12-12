@@ -1,5 +1,5 @@
 dream_long_detector:
-  module: dream.alg.dream.dld
+  module: dream.alg.dream.dld_shf
   alg: dld_reconstructor
   kwargs: {det_id: l}
   return: {wf_l:[mcp, u1, u2, v1, v2, w1, w2], 

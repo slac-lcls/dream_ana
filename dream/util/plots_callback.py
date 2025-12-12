@@ -521,19 +521,22 @@ class Hist1DFuncPlot(BasePlot):
 
     def _accumulate(self, data_dict: dict):# -> None:
         key_h = f'h1_{self.name}'
-        if key_h in data_dict:
-            gather_dense_hist1d_fast(self.dense, data_dict[key_h])
-        if self.norm_type:
-            key_n = f'norm_{self.name}'
-            if key_n in data_dict:
-                self.norm_sum += data_dict[key_n]
+        if data_dict[f'valid_{self.name}']:           
+            if key_h in data_dict:
+                gather_dense_hist1d_fast(self.dense, data_dict[key_h])
+            if self.norm_type:
+                key_n = f'norm_{self.name}'
+                if key_n in data_dict:
+                    self.norm_sum += data_dict[key_n]
+        else:
+            print(self.name, 'passed:')
+            print(data_dict[key_h])
 
     def calc(self):
         if self.norm_type and self.norm_sum > 0:
             plot_data = self.dense / self.norm_sum
         else:
-            plot_data = self.dense
-            
+            plot_data = self.dense           
         return self.centers, plot_data
 
     def _publish(self, num_events: int):# -> None:
