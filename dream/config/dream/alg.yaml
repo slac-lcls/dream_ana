@@ -16,7 +16,7 @@ l:
       walk: 0
       timerange_low: 200
       timerange_high: 15000.0
-      offset: 16384
+      offset: 26200
     dld:
       sample_interval: 0.16826923
       fraction: 1
@@ -26,7 +26,7 @@ l:
       walk: 0
       timerange_low: 200
       timerange_high: 15000.0
-      offset: 20000
+      offset: 26200
   hr:
     max_hits: 15
     runtime_u: 154.5
@@ -35,18 +35,18 @@ l:
     u_diff_offset: 1.5
     v_diff_offset: -2.5
     w_diff_offset: 6
-    tsum_avg_u: 47.2
+    tsum_avg_u: 47.5
     tsum_hw_u: 3
-    tsum_avg_v: 16.75
+    tsum_avg_v: 16.8
     tsum_hw_v: 4
-    tsum_avg_w: 27.5
+    tsum_avg_w: 28
     tsum_hw_w: 5
     f_u: 0.784
-    f_v: 0.8055
+    f_v: 0.806
     f_w: 0.783
     pos_offset_x: 0
     pos_offset_y: 0
-    w_offset: 0.725
+    w_offset: 0.6
     rMCP: 62
     dtime_dld: 20
     dtime_mcp: 20
@@ -66,38 +66,38 @@ s:
       fraction: 1
       delay: 4
       polarity: "Negative"
-      threshold: 500
+      threshold: 1300
       walk: 0
       timerange_low: 0
-      timerange_high: 10000.0
-      offset: 20000
+      timerange_high: 13000.0
+      offset: 26200
     dld:
       sample_interval: 0.16826923
       fraction: 1
       delay: 5
       polarity: "Negative"
-      threshold: 500
+      threshold: 1300
       walk: 0
       timerange_low: 0
-      timerange_high: 10000.0
-      offset: 20000
+      timerange_high: 13000.0
+      offset: 26200
   hr:
     max_hits: 15
-    runtime_u: 149.65
-    runtime_v: 150.5
-    runtime_w: 147.25
-    u_diff_offset: -1.05
-    v_diff_offset: -3.0
-    w_diff_offset: 5.15
-    tsum_avg_u: 161.6
+    runtime_u: 152.85
+    runtime_v: 151.3
+    runtime_w: 152.85
+    u_diff_offset: -1.45
+    v_diff_offset: -1.1
+    w_diff_offset: 1.85
+    tsum_avg_u: 161.7
     tsum_hw_u: 3
-    tsum_avg_v: -2372.6
+    tsum_avg_v: 225.5
     tsum_hw_v: 3
-    tsum_avg_w: 147
+    tsum_avg_w: 147.3
     tsum_hw_w: 3
-    f_u: 0.802
-    f_v: 0.797
-    f_w: 0.815
+    f_u: 0.785
+    f_v: 0.793
+    f_w: 0.785
     pos_offset_x: 0
     pos_offset_y: 0
     w_offset: 0

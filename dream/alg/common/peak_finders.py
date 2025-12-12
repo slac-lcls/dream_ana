@@ -91,7 +91,7 @@ class hsd_peak_finder():
                 for j, (start, amp) in enumerate(zip(starts, amps)):                    
                     if fex_status>0:
                         #print('FEX wrapped, unwrapping it now.')
-                        amp = np.unwrap(amp, period=2**15)
+                        amp = np.unwrap(amp, period=32768)
                     amp = amp.astype('float')
                     ts = (start + np.arange(len(amp)))*0.1682692307692308
                     
