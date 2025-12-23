@@ -27,6 +27,26 @@ l:
       timerange_low: 200
       timerange_high: 15000.0
       offset: 26200
+    v1:
+      sample_interval: 0.16826923
+      fraction: 1
+      delay: 5
+      polarity: "Negative"
+      threshold: 2620
+      walk: 0
+      timerange_low: 200
+      timerange_high: 15000.0
+      offset: 26200    
+    w2:
+      sample_interval: 0.16826923
+      fraction: 1
+      delay: 5
+      polarity: "Negative"
+      threshold: 2620
+      walk: 0
+      timerange_low: 200
+      timerange_high: 15000.0
+      offset: 26200         
   hr:
     max_hits: 15
     runtime_u: 154.5
@@ -42,11 +62,11 @@ l:
     tsum_avg_w: 28
     tsum_hw_w: 5
     f_u: 0.784
-    f_v: 0.806
-    f_w: 0.783
+    f_v: 0.8075
+    f_w: 0.784
     pos_offset_x: 0
     pos_offset_y: 0
-    w_offset: 0.6
+    w_offset: 0.725
     rMCP: 62
     dtime_dld: 20
     dtime_mcp: 20

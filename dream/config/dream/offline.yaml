@@ -1,47 +1,30 @@
 live: False
-max_events: 1000000
+max_events:
 batch_size: 1000
-xpand: False
+xpand: True
 h5:
   path1: /sdf/data/lcls/ds/tmo/
-  path2: /scratch/xiangli/h5/
+  path2: /scratch/arp/h5_v1/
   name1: run
   name2: .h5
 log:
   path1: /sdf/data/lcls/ds/tmo/
-  path2: /scratch/xiangli/log/
+  path2: /scratch/arp/log/
 
  
 data:
-  uniform:
+  ragged:
     # hit_s:
-    #   fvar: [n]  
+    #   var: [z, y, t, m]
     hit_l:
-      fvar: [n]
-    
-  ragged_split:
-    # tpks_s:
-    #   var: [mcp,u1,u2,v1,v2,w1,w2]
-    # hpks_s:
-    #   var: [mcp,u1,u2,v1,v2,w1,w2]   
-    tpks_l:
-      var: [mcp,u1,u2,v1,v2,w1,w2]
-    hpks_l:
-      var: [mcp,u1,u2,v1,v2,w1,w2] 
-  # ragged:
-  #   # hit_s:
-  #   #   var: [z, y, t, m]
-  #   hit_l:
-  #     var: [z, y, t]   
-  #   diag_l:
-  #     var: [tsum_u, tsum_v, tsum_w, diff_u, diff_v, diff_w]       
+      var: [z, y, t, m]     
 
 
 
-  # x:
-  #   scan: [var1, var2]
-  #   bld: [gmd, xgmd]
-  #   timing: ['280','281','282','dest']
-  #   atm: [edge, prom] 
-  #   epics: [las_ip2_atm_dly]
+  x:
+    scan: [var1, var2]
+    bld: [gmd, xgmd]
+    timing: ['280','281','282','dest']
+    atm: [edge, prom] 
+    epics: [las_ip2_atm_dly]
 

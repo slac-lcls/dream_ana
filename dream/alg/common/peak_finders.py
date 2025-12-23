@@ -13,6 +13,10 @@ class hsd_peak_finder():
             for k2 in vals:
                 if 'mcp' in k1:
                     self.finder[self.mapping[k1+k2]] = PyCFD(self.params['mcp'])
+                elif 'dream_hsd_lv0' == (k1+k2):
+                    self.finder[self.mapping[k1+k2]] = PyCFD(self.params['v1'])   
+                elif 'dream_hsd_lw1' == (k1+k2):
+                    self.finder[self.mapping[k1+k2]] = PyCFD(self.params['w2'])                      
                 else:
                     self.finder[self.mapping[k1+k2]] = PyCFD(self.params['dld'])    
         self.ts_wf = None
