@@ -1,30 +1,13 @@
 # dream_ana
 Online and offline analysis software for the DREAM instrument at the LCLS.
 
-## Main features
-- Capable of running both online and offline
-- Analysis configurable with human-readable files
-- Plots-driven analysis for online, and h5-content-driven for offline
-
-## Data pipeline
-<img width="929" height="292" alt="image" src="https://github.com/user-attachments/assets/da3ac2ba-1cd2-4e4e-bf13-9d998f95c03c" />
-<br><br>
-
-## Software structure
-<img width="1014" height="387" alt="image" src="https://github.com/user-attachments/assets/23cbb410-aefb-4632-88fc-3ee7c367596f" />
-<br><br>
-
-## Workflow
-<img width="952" height="425" alt="image" src="https://github.com/user-attachments/assets/85ce42e1-1d09-41cc-a26d-b68ab652f68a" />
-<br><br>
-
-## Online plots
-<img width="3781" height="2070" alt="image" src="https://github.com/user-attachments/assets/31192a35-4d8f-4260-8d5e-6b4b32d594c3" />
-
----
-
 ## Table of Contents
 
+- [Main Features](#main-features)
+- [Data Pipeline](#data-pipeline)
+- [Software Structure](#software-structure)
+- [Workflow](#workflow)
+- [Online Plots](#online-plots)
 - [Installation](#installation)
 - [Quick Start](#quick-start)
 - [Configuration Files](#configuration-files)
@@ -33,6 +16,33 @@ Online and offline analysis software for the DREAM instrument at the LCLS.
 - [Variable Reference](#variable-reference)
 - [Custom Functions Reference](#custom-functions-reference)
 - [Troubleshooting](#troubleshooting)
+
+---
+
+## Main Features
+- Capable of running both online and offline
+- Analysis configurable with human-readable files
+- Plots-driven analysis for online, and h5-content-driven for offline
+
+---
+
+## Data Pipeline
+<img width="929" height="292" alt="image" src="https://github.com/user-attachments/assets/da3ac2ba-1cd2-4e4e-bf13-9d998f95c03c" />
+
+---
+
+## Software Structure
+<img width="1014" height="387" alt="image" src="https://github.com/user-attachments/assets/23cbb410-aefb-4632-88fc-3ee7c367596f" />
+
+---
+
+## Workflow
+<img width="952" height="425" alt="image" src="https://github.com/user-attachments/assets/85ce42e1-1d09-41cc-a26d-b68ab652f68a" />
+
+---
+
+## Online Plots
+<img width="3781" height="2070" alt="image" src="https://github.com/user-attachments/assets/31192a35-4d8f-4260-8d5e-6b4b32d594c3" />
 
 ---
 
@@ -53,7 +63,7 @@ pip install -e .
 export CONFIGDIR=/path/to/dream/config/
 
 # Online mode (real-time)
-dream --exp <experiment_name>
+dream
 
 # Offline mode (batch processing)
 dream --exp <experiment_name> --run <run_number>
@@ -443,13 +453,13 @@ data:
 ## Variable Reference
 
 <details>
-<summary><strong>Click to expand variable table</strong></summary>
+<summary><strong>Long Detector Variables</strong></summary>
 
 Format: `detector:variable`
 
 | Variable | Description |
 |----------|-------------|
-| **Hit Data (Long Detector)** | |
+| **Hit Data** | |
 | `hit_l:t` | Hit time (TOF) |
 | `hit_l:y` | Hit Y position |
 | `hit_l:z` | Hit Z position |
@@ -470,6 +480,45 @@ Format: `detector:variable`
 | **PIPICO** | |
 | `ppc_l:pp1` | First ion TOF |
 | `ppc_l:pp2` | Second ion TOF |
+
+</details>
+
+<details>
+<summary><strong>Short Detector Variables</strong></summary>
+
+Format: `detector:variable`
+
+| Variable | Description |
+|----------|-------------|
+| **Hit Data** | |
+| `hit_s:t` | Hit time (TOF) |
+| `hit_s:y` | Hit Y position |
+| `hit_s:z` | Hit Z position |
+| `hit_s:n` | Hit count per event |
+| `hit_s:m` | Hit multiplicity |
+| **Waveforms** | |
+| `wf_s:mcp` | MCP waveform |
+| `wf_s:u1`, `wf_s:u2` | U delay line waveforms |
+| `wf_s:v1`, `wf_s:v2` | V delay line waveforms |
+| `wf_s:w1`, `wf_s:w2` | W delay line waveforms |
+| **Timing Peaks** | |
+| `tpks_s:mcp` | MCP timing peaks |
+| `len_tpks_s:mcp` | Number of MCP peaks |
+| **Diagnostics** | |
+| `diag_s:tsum_u` | U-axis timing sum |
+| `diag_s:tsum_v` | V-axis timing sum |
+| `diag_s:tsum_w` | W-axis timing sum |
+| **PIPICO** | |
+| `ppc_s:pp1` | First ion TOF |
+| `ppc_s:pp2` | Second ion TOF |
+
+</details>
+
+<details>
+<summary><strong>Common Variables</strong></summary>
+
+| Variable | Description |
+|----------|-------------|
 | **Beam Line Data** | |
 | `bld:xgmd` | X-ray gas monitor |
 | `bld:gmd` | Gas monitor |
@@ -484,8 +533,6 @@ Format: `detector:variable`
 | **ATM** | |
 | `atm:line` | ATM line data |
 | `atm:gline` | ATM gated line |
-
-*Replace `_l` with `_s` for short detector.*
 
 </details>
 
@@ -562,6 +609,5 @@ func:
 
 ## Additional Resources
 
-- Documented config examples: `dream/config/dream/online_test.yaml`, `dream/config/dream/offline_test.yaml`
 - Detector parameters: `dream/config/dream/det.yaml`
 - Algorithm definitions: `dream/config/dream/alg.yaml`
