@@ -523,8 +523,8 @@ Format: `detector:variable`
 | `bld:xgmd` | X-ray gas monitor |
 | `bld:gmd` | Gas monitor |
 | **Timing Codes** | |
-| `timing:280` | Timing code 280 (laser on) |
-| `timing:281` | Timing code 281 (laser off) |
+| `timing:280` | Timing code 280 |
+| `timing:281` | Timing code 281 |
 | `timing:282` | Timing code 282 |
 | `timing:dest` | Beam destination |
 | **Scan** | |
