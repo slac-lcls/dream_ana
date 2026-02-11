@@ -606,8 +606,3 @@ func:
 </details>
 
 ---
-
-## Additional Resources
-
-- Detector parameters: `dream/config/dream/det.yaml`
-- Algorithm definitions: `dream/config/dream/alg.yaml`
