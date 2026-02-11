@@ -464,19 +464,19 @@ Format: `detector:variable`
 | `hit_l:y` | Hit Y position |
 | `hit_l:z` | Hit Z position |
 | `hit_l:n` | Hit count per event |
-| `hit_l:m` | Hit multiplicity |
+| `hit_l:m` | Reconstruction method |
 | **Waveforms** | |
 | `wf_l:mcp` | MCP waveform |
-| `wf_l:u1`, `wf_l:u2` | U delay line waveforms |
-| `wf_l:v1`, `wf_l:v2` | V delay line waveforms |
-| `wf_l:w1`, `wf_l:w2` | W delay line waveforms |
+| `wf_l:u1`, `wf_l:u2` | U layer waveforms |
+| `wf_l:v1`, `wf_l:v2` | V layer waveforms |
+| `wf_l:w1`, `wf_l:w2` | W layer waveforms |
 | **Timing Peaks** | |
-| `tpks_l:mcp` | MCP timing peaks |
+| `tpks_l:mcp` | MCP hit time |
 | `len_tpks_l:mcp` | Number of MCP peaks |
 | **Diagnostics** | |
-| `diag_l:tsum_u` | U-axis timing sum |
-| `diag_l:tsum_v` | V-axis timing sum |
-| `diag_l:tsum_w` | W-axis timing sum |
+| `diag_l:tsum_u` | U layer timing sum |
+| `diag_l:tsum_v` | V layer timing sum |
+| `diag_l:tsum_w` | W layer timing sum |
 | **PIPICO** | |
 | `ppc_l:pp1` | First ion TOF |
 | `ppc_l:pp2` | Second ion TOF |
@@ -495,19 +495,19 @@ Format: `detector:variable`
 | `hit_s:y` | Hit Y position |
 | `hit_s:z` | Hit Z position |
 | `hit_s:n` | Hit count per event |
-| `hit_s:m` | Hit multiplicity |
+| `hit_s:m` | Reconstruction method |
 | **Waveforms** | |
 | `wf_s:mcp` | MCP waveform |
-| `wf_s:u1`, `wf_s:u2` | U delay line waveforms |
-| `wf_s:v1`, `wf_s:v2` | V delay line waveforms |
-| `wf_s:w1`, `wf_s:w2` | W delay line waveforms |
+| `wf_s:u1`, `wf_s:u2` | U layer waveforms |
+| `wf_s:v1`, `wf_s:v2` | V layer waveforms |
+| `wf_s:w1`, `wf_s:w2` | W layer waveforms |
 | **Timing Peaks** | |
-| `tpks_s:mcp` | MCP timing peaks |
+| `tpks_s:mcp` | MCP hit time |
 | `len_tpks_s:mcp` | Number of MCP peaks |
 | **Diagnostics** | |
-| `diag_s:tsum_u` | U-axis timing sum |
-| `diag_s:tsum_v` | V-axis timing sum |
-| `diag_s:tsum_w` | W-axis timing sum |
+| `diag_s:tsum_u` | U layer timing sum |
+| `diag_s:tsum_v` | V layer timing sum |
+| `diag_s:tsum_w` | W layer timing sum |
 | **PIPICO** | |
 | `ppc_s:pp1` | First ion TOF |
 | `ppc_s:pp2` | Second ion TOF |
@@ -520,8 +520,8 @@ Format: `detector:variable`
 | Variable | Description |
 |----------|-------------|
 | **Beam Line Data** | |
-| `bld:xgmd` | X-ray gas monitor |
-| `bld:gmd` | Gas monitor |
+| `bld:gmd` | X-ray pulse energy |
+| `bld:xgmd` | X-ray pulse energy (after attenuator) |
 | **Timing Codes** | |
 | `timing:280` | Timing code 280 |
 | `timing:281` | Timing code 281 |
@@ -532,7 +532,7 @@ Format: `detector:variable`
 | `scan:var2` | Second scan variable |
 | **ATM** | |
 | `atm:line` | ATM line data |
-| `atm:gline` | ATM gated line |
+| `atm:gline` | ATM line data (gaussian filtered) |
 
 </details>
 
