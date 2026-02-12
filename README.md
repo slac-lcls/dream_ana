@@ -474,9 +474,9 @@ Format: `detector:variable`
 | `tpks_l:mcp` | MCP hit time |
 | `len_tpks_l:mcp` | Number of MCP peaks |
 | **Diagnostics** | |
-| `diag_l:tsum_u` | U layer timing sum |
-| `diag_l:tsum_v` | V layer timing sum |
-| `diag_l:tsum_w` | W layer timing sum |
+| `diag_l:tsum_u` | U layer time sum |
+| `diag_l:tsum_v` | V layer time sum |
+| `diag_l:tsum_w` | W layer time sum |
 | **PIPICO** | |
 | `ppc_l:pp1` | First ion TOF |
 | `ppc_l:pp2` | Second ion TOF |
@@ -505,9 +505,9 @@ Format: `detector:variable`
 | `tpks_s:mcp` | MCP hit time |
 | `len_tpks_s:mcp` | Number of MCP peaks |
 | **Diagnostics** | |
-| `diag_s:tsum_u` | U layer timing sum |
-| `diag_s:tsum_v` | V layer timing sum |
-| `diag_s:tsum_w` | W layer timing sum |
+| `diag_s:tsum_u` | U layer time sum |
+| `diag_s:tsum_v` | V layer time sum |
+| `diag_s:tsum_w` | W layer time sum |
 | **PIPICO** | |
 | `ppc_s:pp1` | First ion TOF |
 | `ppc_s:pp2` | Second ion TOF |
