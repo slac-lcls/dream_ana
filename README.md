@@ -63,7 +63,8 @@ pip install -e .
 export CONFIGDIR=/path/to/dream/config/
 
 # Online mode (real-time)
-dream
+dream (single core)
+ana (30 cores)
 
 # Offline mode (batch processing)
 dream --exp <experiment_name> --run <run_number>
