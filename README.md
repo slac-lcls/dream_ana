@@ -62,15 +62,13 @@ pip install -e .
 # Set config directory
 export CONFIGDIR=/path/to/dream/config/
 
-# Online mode (real-time)
+# Online mode (real time)
 dream (single core)
 ana (30 cores)
 
-# Offline mode (batch processing)
-dream --exp <experiment_name> --run <run_number>
-
-# With MPI
-mpirun -n 8 dream --exp tmox12345 --run 42
+# Offline mode (xtc processing)
+dream --exp <experiment_name> --run <run_number> (single core)
+mpirun -n <num_cores> dream --exp <experiment_name> --run <run_number>
 ```
 
 ---
