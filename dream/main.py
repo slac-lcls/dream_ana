@@ -97,7 +97,7 @@ while 1:
                             
                     comm.send(rank, smd, n_evt, evt, evt_dict)
                     n_evt += 1
-                
+                    #print('-'*50 ,n_evt, evt_dict)
                 except Exception as err:
                    print(err)
             

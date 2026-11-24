@@ -164,7 +164,7 @@ class dld_reconstructor:
                 for sig_name in self.sig_names:                    
                     self.RHF.set_peaks_arr(sig_name, 
                                            self.peak_finder.tpks_dict[sig_name] - self.sig_offset_dict[sig_name], 
-                                           self.peak_finder.len_tpks_dict[sig_name])              
+                                           self.peak_finder.len_tpks_dict[sig_name][0])              
                     
                 self.RHF.pre_sort()  
 
